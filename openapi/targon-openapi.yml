@@ -1,0 +1,512 @@
+openapi: 3.0.1
+info:
+  title: Targon API
+  description: >-
+    OpenAI-compatible REST API for Targon, the decentralized AI inference
+    platform operated as Bittensor Subnet 4 by Manifold Labs. Inference is
+    produced by a marketplace of miners running OpenAI-compliant endpoints and
+    verified by validators. The public surface follows the OpenAI API shape:
+    chat completions, legacy text completions, model listing, image
+    generation, and search. All requests are authenticated with a Bearer API
+    key.
+  termsOfService: https://targon.com
+  contact:
+    name: Targon Support
+    url: https://docs.targon.com
+  version: '1.0'
+servers:
+  - url: https://api.targon.com/v1
+    description: Targon OpenAI-compatible inference base URL.
+security:
+  - bearerAuth: []
+tags:
+  - name: Chat
+    description: OpenAI-compatible chat completions.
+  - name: Completions
+    description: OpenAI-compatible legacy text completions.
+  - name: Models
+    description: List models available on Targon.
+  - name: Images
+    description: Image generation from a text prompt.
+  - name: Search
+    description: Query-based search/retrieval.
+paths:
+  /chat/completions:
+    post:
+      operationId: createChatCompletion
+      tags:
+        - Chat
+      summary: Create a chat completion
+      description: >-
+        Generates a model response for the given chat conversation. Compatible
+        with the OpenAI Chat Completions API. Set `stream: true` to receive the
+        response as Server-Sent Events.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChatCompletionRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateChatCompletionResponse'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionChunk'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /completions:
+    post:
+      operationId: createCompletion
+      tags:
+        - Completions
+      summary: Create a completion
+      description: >-
+        Generates a text completion for the provided prompt. Compatible with
+        the OpenAI legacy Completions API. Set `stream: true` to receive the
+        response as Server-Sent Events.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompletionRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCompletionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /models:
+    get:
+      operationId: listModels
+      tags:
+        - Models
+      summary: List models
+      description: >-
+        Lists the models currently available on Targon. The catalog can be
+        extended permissionlessly by the community.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListModelsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /models/{model}:
+    get:
+      operationId: retrieveModel
+      tags:
+        - Models
+      summary: Retrieve a model
+      description: Retrieves metadata for a single model by id.
+      parameters:
+        - name: model
+          in: path
+          required: true
+          description: The id of the model to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Model not found.
+  /images/generations:
+    post:
+      operationId: createImage
+      tags:
+        - Images
+      summary: Create an image
+      description: >-
+        Generates one or more images from a text prompt using an image model
+        served across the Subnet 4 miner marketplace. Compatible with the
+        OpenAI Images API.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateImageRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImagesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /search:
+    post:
+      operationId: createSearch
+      tags:
+        - Search
+      summary: Search
+      description: >-
+        Returns relevant results for a query string, usable to ground model
+        responses with retrieved context.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSearchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Targon API key passed as a Bearer token in the Authorization header:
+        `Authorization: Bearer $TARGON_API_KEY`.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ChatMessage:
+      type: object
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          description: The role of the message author.
+          enum:
+            - system
+            - user
+            - assistant
+            - tool
+        content:
+          type: string
+          description: The text content of the message.
+        name:
+          type: string
+          description: Optional name of the author of this message.
+    CreateChatCompletionRequest:
+      type: object
+      required:
+        - model
+        - messages
+      properties:
+        model:
+          type: string
+          description: The id of the model to use.
+          example: deepseek-ai/DeepSeek-R1
+        messages:
+          type: array
+          description: The conversation so far, as a list of messages.
+          items:
+            $ref: '#/components/schemas/ChatMessage'
+        stream:
+          type: boolean
+          default: false
+          description: If true, response tokens are sent as Server-Sent Events.
+        temperature:
+          type: number
+          format: float
+          default: 1
+          minimum: 0
+          maximum: 2
+          description: Sampling temperature.
+        top_p:
+          type: number
+          format: float
+          default: 1
+          description: Nucleus sampling probability mass.
+        max_tokens:
+          type: integer
+          description: Maximum number of tokens to generate.
+        stop:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          description: Up to 4 sequences where generation stops.
+        frequency_penalty:
+          type: number
+          format: float
+          default: 0
+        presence_penalty:
+          type: number
+          format: float
+          default: 0
+        seed:
+          type: integer
+          description: Seed for best-effort deterministic sampling.
+    CreateChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              message:
+                $ref: '#/components/schemas/ChatMessage'
+              finish_reason:
+                type: string
+                example: stop
+        usage:
+          $ref: '#/components/schemas/Usage'
+    ChatCompletionChunk:
+      type: object
+      description: A single Server-Sent Event chunk emitted when stream is true.
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion.chunk
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              delta:
+                type: object
+                properties:
+                  role:
+                    type: string
+                  content:
+                    type: string
+              finish_reason:
+                type: string
+                nullable: true
+    CreateCompletionRequest:
+      type: object
+      required:
+        - model
+        - prompt
+      properties:
+        model:
+          type: string
+          description: The id of the model to use.
+        prompt:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          description: The prompt to complete.
+        stream:
+          type: boolean
+          default: false
+        temperature:
+          type: number
+          format: float
+          default: 1
+        max_tokens:
+          type: integer
+        top_p:
+          type: number
+          format: float
+          default: 1
+        stop:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+    CreateCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: text_completion
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              text:
+                type: string
+              finish_reason:
+                type: string
+        usage:
+          $ref: '#/components/schemas/Usage'
+    ListModelsResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          example: list
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model'
+    Model:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The model identifier.
+          example: deepseek-ai/DeepSeek-R1
+        object:
+          type: string
+          example: model
+        created:
+          type: integer
+        owned_by:
+          type: string
+          example: targon
+    CreateImageRequest:
+      type: object
+      required:
+        - prompt
+      properties:
+        model:
+          type: string
+          description: The image model to use.
+        prompt:
+          type: string
+          description: A text description of the desired image.
+        n:
+          type: integer
+          default: 1
+          description: The number of images to generate.
+        size:
+          type: string
+          description: The size of the generated images.
+          example: 1024x1024
+        response_format:
+          type: string
+          enum:
+            - url
+            - b64_json
+          default: url
+    ImagesResponse:
+      type: object
+      properties:
+        created:
+          type: integer
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+              b64_json:
+                type: string
+    CreateSearchRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: The search query.
+        max_results:
+          type: integer
+          default: 10
+          description: Maximum number of results to return.
+    SearchResponse:
+      type: object
+      properties:
+        query:
+          type: string
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              url:
+                type: string
+              snippet:
+                type: string
+              score:
+                type: number
+                format: float
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+            code:
+              type: string

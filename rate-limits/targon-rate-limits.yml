@@ -1,0 +1,57 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Targon
+providerId: targon
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- LLM
+- Inference
+- Decentralized
+- Bittensor
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Targon meters access to its OpenAI-compatible inference API per API key.
+  Because inference is served by a decentralized marketplace of miners on
+  Bittensor Subnet 4, effective throughput depends on available miner capacity
+  for a given model in addition to any account-level request/token limits.
+  Specific per-key or per-model limit values are not published in a single
+  reference and are not reconciled in this artifact.
+notes: >-
+  Verify current per-key limits, any RPM/TPM caps, and model-specific capacity
+  in the Targon console during reconciliation. Throughput on a decentralized
+  network can vary with the number of miners serving a model.
+sources:
+- https://targon.com
+- https://docs.targon.com
+responseCodes:
+  throttled: 429
+limits:
+- name: Requests Per Minute (RPM)
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Per-key request rate; value not published, varies by account.
+- name: Tokens Per Minute (TPM)
+  scope: account
+  metric: tokens
+  limit: see provider documentation
+  notes: Per-key token rate; value not published, varies by account and model.
+- name: Model Capacity
+  scope: network
+  metric: throughput
+  limit: depends on active miners
+  notes: Effective throughput depends on miner capacity serving a given model on Subnet 4.
+policies:
+- name: Decentralized Capacity
+  description: Throughput scales with the number of miners serving a model; capacity is market-driven rather than fixed by a single vendor.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

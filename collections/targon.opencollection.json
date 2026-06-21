@@ -1,0 +1,137 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Targon API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chat",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a chat completion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.targon.com/v1/chat/completions",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Hello\" }\n  ],\n  \"stream\": false\n}"
+            }
+          },
+          "docs": "Generates a model response for the given chat conversation. Set stream to true for Server-Sent Events."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Completions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a completion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.targon.com/v1/completions",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1\",\n  \"prompt\": \"Once upon a time\",\n  \"stream\": false\n}"
+            }
+          },
+          "docs": "Generates a text completion for the provided prompt."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.targon.com/v1/models"
+          },
+          "docs": "Lists the models currently available on Targon."
+        },
+        {
+          "info": {
+            "name": "Retrieve a model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.targon.com/v1/models/{{model}}"
+          },
+          "docs": "Retrieves metadata for a single model by id."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Images",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.targon.com/v1/images/generations",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"prompt\": \"A photo of a butterfly\",\n  \"n\": 1,\n  \"size\": \"1024x1024\"\n}"
+            }
+          },
+          "docs": "Generates one or more images from a text prompt."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.targon.com/v1/search",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"query\": \"latest AI inference news\",\n  \"max_results\": 10\n}"
+            }
+          },
+          "docs": "Returns relevant results for a query string."
+        }
+      ]
+    }
+  ]
+}

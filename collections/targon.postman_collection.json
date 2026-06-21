@@ -1,0 +1,161 @@
+{
+  "info": {
+    "_postman_id": "b6e1a4f2-3c7d-4d2e-9b1a-7f0c2d9e5a41",
+    "name": "Targon API",
+    "description": "OpenAI-compatible REST API for Targon, the decentralized AI inference platform operated as Bittensor Subnet 4 by Manifold Labs. Base URL https://api.targon.com/v1, Bearer API key authentication.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.targon.com/v1"
+    },
+    {
+      "key": "model",
+      "value": "deepseek-ai/DeepSeek-R1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Chat",
+      "item": [
+        {
+          "name": "Create a chat completion",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/completions",
+              "host": ["{{baseUrl}}"],
+              "path": ["chat", "completions"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Hello\" }\n  ],\n  \"stream\": false,\n  \"temperature\": 1,\n  \"max_tokens\": 256\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Generates a model response for the given chat conversation. Set stream to true to receive Server-Sent Events."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Completions",
+      "item": [
+        {
+          "name": "Create a completion",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/completions",
+              "host": ["{{baseUrl}}"],
+              "path": ["completions"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1\",\n  \"prompt\": \"Once upon a time\",\n  \"stream\": false,\n  \"max_tokens\": 256\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Generates a text completion for the provided prompt."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Models",
+      "item": [
+        {
+          "name": "List models",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/models",
+              "host": ["{{baseUrl}}"],
+              "path": ["models"]
+            },
+            "description": "Lists the models currently available on Targon."
+          }
+        },
+        {
+          "name": "Retrieve a model",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/models/{{model}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["models", "{{model}}"]
+            },
+            "description": "Retrieves metadata for a single model by id."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "item": [
+        {
+          "name": "Create an image",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/images/generations",
+              "host": ["{{baseUrl}}"],
+              "path": ["images", "generations"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt\": \"A photo of a butterfly\",\n  \"n\": 1,\n  \"size\": \"1024x1024\",\n  \"response_format\": \"url\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Generates one or more images from a text prompt."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["search"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"latest AI inference news\",\n  \"max_results\": 10\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Returns relevant results for a query string."
+          }
+        }
+      ]
+    }
+  ]
+}

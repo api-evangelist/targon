@@ -1,0 +1,72 @@
+aid: targon
+name: Targon
+review:
+  question: Does Targon expose a documented public WebSocket API?
+  answer: false
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Per API Evangelist scope (2026-05-29), HTTP Server-Sent Events (SSE) is
+    in-scope for AsyncAPI modeling. An AsyncAPI 2.6 document was created at
+    asyncapi/targon-asyncapi.yml describing the chat completion SSE stream
+    (POST /chat/completions with stream=true). No WebSocket surface was
+    modeled because none is documented.
+findings:
+  summary: |
+    Targon does not publish a documented public WebSocket API. Targon is a
+    decentralized AI inference platform operated as Bittensor Subnet 4 by
+    Manifold Labs, exposing an OpenAI-compatible REST (HTTPS) API under
+    https://api.targon.com/v1. Streaming for chat and text completions is
+    delivered as HTTP Server-Sent Events (SSE) via the `stream: true`
+    parameter on the REST endpoint; SSE is a one-way HTTP streaming transport
+    and is not WebSocket. No realtime, bidirectional WebSocket (ws:// or
+    wss://) endpoint is documented. Note that inference is produced by a
+    marketplace of miners and verified by validators on-chain, but the public
+    developer surface is a standard OpenAI-compatible REST API gated by a
+    Bearer API key (the gateway returns 403 without a valid key).
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.targon.com/v1
+      documented: true
+    - protocol: SSE
+      scheme: https
+      note: Server-Sent Events delivered over the same REST chat/completions and completions endpoints when stream=true. Not WebSocket.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented for Targon's OpenAI-compatible API as of the review date.
+  endpointsConfirmedRest:
+    - POST https://api.targon.com/v1/chat/completions
+    - POST https://api.targon.com/v1/completions
+    - GET  https://api.targon.com/v1/models
+    - GET  https://api.targon.com/v1/models/{model}
+    - POST https://api.targon.com/v1/images/generations
+    - POST https://api.targon.com/v1/search
+sources:
+  - url: https://docs.targon.com
+    type: Documentation
+    note: Targon documentation; OpenAI-compliant endpoints under https://api.targon.com/v1.
+  - url: https://www.lava.so/docs/gateway/providers/targon
+    type: Documentation
+    note: Documents Targon base URL https://api.targon.com/v1, chat/completions endpoint, Bearer auth, and streaming via stream=true.
+  - url: https://github.com/CreativeBuilds/targon-wrapper
+    type: SourceCode
+    note: OpenAI-compatible wrapper exposing /v1/chat/completions and /v1/completions with streaming and non-streaming support.
+  - url: https://iq.wiki/wiki/targon
+    type: Reference
+    note: Confirms Manifold Labs as builder, Bittensor Subnet 4, and OpenAI-compliant endpoints for adoption.
+actions:
+  asyncapiPath: asyncapi/targon-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Under the 2026-05-29 scope that
+    allows SSE in AsyncAPI, an AsyncAPI 2.6 document was authored for the chat
+    completion SSE stream, with HTTP+SSE transport documented explicitly
+    throughout the spec (server protocol, channel bindings,
+    info.x-transport-notes) so SSE is never misrepresented as WebSocket.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

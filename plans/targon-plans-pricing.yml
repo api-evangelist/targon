@@ -1,0 +1,110 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Targon
+providerId: targon
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- LLM
+- Inference
+- Decentralized
+- Bittensor
+- Plans
+description: >-
+  Targon uses a usage-based, pay-as-you-go pricing model with per-token rates
+  for chat and text completions served by Bittensor Subnet 4 miners. Pricing
+  varies by model and is set by the decentralized marketplace; image generation
+  and search are metered per request. At various points Targon has offered free
+  API and Playground access while bootstrapping the network, so current rates
+  must be confirmed against the live console. Specific per-model rates are not
+  reconciled in this artifact.
+notes: >-
+  Targon inference is produced by a marketplace of miners on Bittensor Subnet 4
+  and validated on-chain; per-model token rates are market-driven and change
+  over time. Verify current rates and any free-tier promotions in the Targon
+  console at https://targon.com during reconciliation.
+sources:
+- https://targon.com
+- https://docs.targon.com
+plans:
+- id: targon-pay-as-you-go
+  name: Pay-as-you-go
+  type: usage
+  description: >-
+    Token-, image-, and request-metered usage across the OpenAI-compatible
+    Targon APIs with no monthly minimum. Per-model rates are set by the
+    decentralized miner marketplace.
+  entries:
+  - label: Chat / Text Completion Input Tokens
+    name: input_tokens
+    type: usage
+    metric: tokens
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000000
+    price: per-model, see Targon console (not reconciled)
+    userMultiplied: false
+  - label: Chat / Text Completion Output Tokens
+    name: output_tokens
+    type: usage
+    metric: tokens
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000000
+    price: per-model, see Targon console (not reconciled)
+    userMultiplied: false
+  - label: Image Generation
+    name: images
+    type: usage
+    metric: images
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: per-image, see Targon console (not reconciled)
+    userMultiplied: false
+  - label: Search
+    name: search
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1000
+    price: per-request, see Targon console (not reconciled)
+    userMultiplied: false
+  elements:
+  - name: Chat Completions
+  - name: Completions
+  - name: Models
+  - name: Images
+  - name: Search
+- id: targon-free-promotional
+  name: Free / Promotional Access
+  type: free
+  description: >-
+    Targon has periodically offered free API and Playground access while
+    bootstrapping Subnet 4. Availability is promotional and may change; confirm
+    in the console.
+  entries:
+  - label: Promotional Free Tokens
+    name: free_tokens
+    type: free
+    metric: tokens
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free during promotional periods (not reconciled)
+    userMultiplied: false
+  elements:
+  - name: Playground Access
+  - name: API Access
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

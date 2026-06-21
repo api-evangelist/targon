@@ -1,0 +1,120 @@
+aid: targon
+url: https://raw.githubusercontent.com/api-evangelist/targon/refs/heads/main/apis.yml
+name: Targon
+kind: company
+description: Targon is a decentralized AI inference platform operated as Bittensor
+  Subnet 4 by Manifold Labs. It serves popular open models through an OpenAI-compatible
+  REST API at https://api.targon.com/v1, where a marketplace of miners runs the
+  inference and validators verify responses, giving developers chat, completions,
+  image, and search endpoints over confidential, decentralized compute.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- AI
+- LLM
+- Inference
+- Decentralized
+- Bittensor
+created: '2026-06-21'
+modified: '2026-06-21'
+specificationVersion: '0.19'
+apis:
+- aid: targon:targon-chat-completions-api
+  name: Targon Chat Completions API
+  tags:
+  - Chat
+  - Completions
+  - LLM
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.targon.com
+  baseURL: https://api.targon.com/v1
+  properties:
+  - url: https://docs.targon.com
+    type: Documentation
+  - url: https://docs.targon.com
+    type: APIReference
+  - url: openapi/targon-openapi.yml
+    type: OpenAPI
+  - url: asyncapi/targon-asyncapi.yml
+    type: AsyncAPI
+  description: OpenAI-compatible chat completions across open models (Llama, DeepSeek,
+    and other community-added models) served by Bittensor Subnet 4 miners, with
+    streaming, temperature, and max_tokens controls.
+- aid: targon:targon-completions-api
+  name: Targon Completions API
+  tags:
+  - Completions
+  - Text Generation
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.targon.com
+  baseURL: https://api.targon.com/v1
+  properties:
+  - url: https://docs.targon.com
+    type: Documentation
+  - url: openapi/targon-openapi.yml
+    type: OpenAPI
+  description: OpenAI-compatible legacy text completion endpoint that takes a prompt
+    string and returns generated text from decentralized miner inference.
+- aid: targon:targon-models-api
+  name: Targon Models API
+  tags:
+  - Models
+  - Catalog
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.targon.com
+  baseURL: https://api.targon.com/v1
+  properties:
+  - url: https://docs.targon.com
+    type: Documentation
+  - url: openapi/targon-openapi.yml
+    type: OpenAPI
+  description: Lists the open models currently live on Targon, which can be extended
+    permissionlessly by the community, with OpenAI-compatible model metadata.
+- aid: targon:targon-images-api
+  name: Targon Images API
+  tags:
+  - Images
+  - Image Generation
+  - Multimodal
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.targon.com
+  baseURL: https://api.targon.com/v1
+  properties:
+  - url: https://docs.targon.com
+    type: Documentation
+  - url: openapi/targon-openapi.yml
+    type: OpenAPI
+  description: OpenAI-compatible image generation endpoint that returns images from
+    a text prompt using image models served across the Subnet 4 miner marketplace.
+- aid: targon:targon-search-api
+  name: Targon Search API
+  tags:
+  - Search
+  - Retrieval
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.targon.com
+  baseURL: https://api.targon.com/v1
+  properties:
+  - url: https://docs.targon.com
+    type: Documentation
+  - url: openapi/targon-openapi.yml
+    type: OpenAPI
+  description: Search endpoint that returns relevant results for a query string,
+    usable to ground model responses with retrieved context.
+common:
+- type: GitHubOrganization
+  url: https://github.com/manifold-inc
+- type: LinkedIn
+  url: https://www.linkedin.com/company/manifold-labs
+- type: Website
+  url: https://targon.com
+- type: Documentation
+  url: https://docs.targon.com
+- type: Plans
+  url: plans/targon-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/targon-rate-limits.yml
+- type: FinOps
+  url: finops/targon-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

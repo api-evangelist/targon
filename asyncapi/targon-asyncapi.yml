@@ -1,0 +1,111 @@
+asyncapi: '2.6.0'
+id: 'urn:com:targon:v1:chat-completions:sse'
+info:
+  title: Targon Chat Completions Streaming (HTTP + SSE)
+  version: '1.0.0'
+  description: |
+    AsyncAPI 2.6 description of Targon's **chat completion streaming** surface.
+
+    Targon is a decentralized AI inference platform operated as Bittensor
+    Subnet 4 by Manifold Labs. It does not publish a WebSocket API. The only
+    asynchronous / event-style transport documented for its OpenAI-compatible
+    API at https://api.targon.com/v1 is **HTTP Server-Sent Events (SSE)**
+    delivered over the same REST endpoint (`POST /chat/completions`) when the
+    request body sets `stream: true`. SSE is a one-way, server-to-client HTTP
+    streaming channel; it is **not** WebSocket.
+
+    Following the OpenAI-compatible convention Targon implements, tokens are
+    sent as data-only server-sent events as they become available, with the
+    stream terminated by a `data: [DONE]` message.
+
+    This AsyncAPI document models only the streamed events emitted by Targon's
+    SSE response. The request body itself (model, messages, etc.) is modeled in
+    the companion OpenAPI document at `openapi/targon-openapi.yml`.
+  contact:
+    name: API Evangelist
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
+  license:
+    name: API documentation - Targon
+    url: https://targon.com
+  x-transport-notes:
+    transport: HTTP Server-Sent Events (SSE)
+    protocol: https
+    direction: server-to-client (one-way)
+    mediaType: text/event-stream
+    triggeredBy: 'POST https://api.targon.com/v1/chat/completions with request body { "stream": true }'
+    terminator: 'data: [DONE]'
+    notWebSocket: true
+    source: https://docs.targon.com
+defaultContentType: text/event-stream
+servers:
+  targon:
+    url: api.targon.com/v1
+    protocol: https
+    description: |
+      Targon's OpenAI-compatible REST base. Chat completion streaming is
+      delivered as HTTP Server-Sent Events over this base when `stream: true`
+      is set on the JSON request body. AsyncAPI 2.6 does not define a dedicated
+      SSE protocol identifier; `https` is used here and the SSE transport is
+      documented in `info.x-transport-notes` and on each channel.
+    security:
+      - bearerAuth: []
+channels:
+  /chat/completions:
+    description: |
+      Chat completion SSE stream. The client opens this channel by issuing
+      `POST https://api.targon.com/v1/chat/completions` with `stream: true` in
+      the JSON request body and an `Authorization: Bearer` API key. The server
+      responds with `Content-Type: text/event-stream` and emits chat completion
+      chunk events until a final `data: [DONE]` sentinel.
+    bindings:
+      http:
+        type: request
+        method: POST
+        bindingVersion: '0.1.0'
+    subscribe:
+      operationId: receiveChatCompletionChunk
+      summary: Receive streamed chat completion chunks as SSE events.
+      message:
+        $ref: '#/components/messages/ChatCompletionChunk'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Targon API key passed as a Bearer token in the Authorization header.
+  messages:
+    ChatCompletionChunk:
+      name: ChatCompletionChunk
+      title: Chat Completion Chunk
+      summary: A single data-only Server-Sent Event carrying an incremental chat completion delta.
+      contentType: text/event-stream
+      payload:
+        type: object
+        properties:
+          id:
+            type: string
+          object:
+            type: string
+            example: chat.completion.chunk
+          created:
+            type: integer
+          model:
+            type: string
+          choices:
+            type: array
+            items:
+              type: object
+              properties:
+                index:
+                  type: integer
+                delta:
+                  type: object
+                  properties:
+                    role:
+                      type: string
+                    content:
+                      type: string
+                finish_reason:
+                  type: string
+                  nullable: true

@@ -1,0 +1,99 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Targon
+providerId: targon
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- AI
+- LLM
+- Inference
+- Decentralized
+- Bittensor
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Targon spend. Targon bills usage-based per-token rates for
+  chat and text completions, per-image rates for image generation, and
+  per-request rates for search. Inference is produced by a decentralized
+  marketplace of miners on Bittensor Subnet 4, so per-model rates are
+  market-driven and can change over time. Specific rates are not reconciled in
+  this artifact.
+notes: >-
+  Per-model token rates are set by the Subnet 4 marketplace and change over
+  time; verify against the Targon console during reconciliation. Account for
+  promotional free-tier periods when modeling spend.
+sources:
+- https://targon.com
+- https://docs.targon.com
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Manifold Labs
+serviceCategory: AI and Machine Learning
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Targon
+  ServiceCategory: AI and Machine Learning
+  ProviderName: Targon
+  PublisherName: Manifold Labs
+  InvoiceIssuerName: Manifold Labs
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: input_tokens
+  description: Tokens sent in chat / text completion requests, billed per 1M tokens per model.
+  unit: tokens
+  aggregation: sum
+  dimensions:
+  - account
+  - model
+  - api
+- name: output_tokens
+  description: Tokens generated, billed per 1M tokens per model.
+  unit: tokens
+  aggregation: sum
+  dimensions:
+  - account
+  - model
+  - api
+- name: images
+  description: Images generated, billed per image per image model.
+  unit: images
+  aggregation: sum
+  dimensions:
+  - account
+  - model
+- name: search_requests
+  description: Search queries, billed per request.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Pull Targon usage and billing data; inspect per-model token burn across the marketplace.
+- name: Allocation
+  description: Tag API keys per workload/team; map to internal cost centers.
+- name: Optimization
+  description: Pick smaller open models when sufficient; exploit promotional free-tier periods; monitor market-driven per-model rates and route to cheaper-capacity models.
+- name: Accountability
+  description: Assign owners per project/key; review token spend monthly against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
