@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/targon-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'Targon API key passed as a Bearer token in the Authorization header: `Authorization:
+    Bearer $TARGON_API_KEY`.'
+  sources:
+  - openapi/targon-openapi.yml

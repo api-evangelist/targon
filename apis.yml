@@ -101,6 +101,10 @@ apis:
   description: Search endpoint that returns relevant results for a query string,
     usable to ground model responses with retrieved context.
 common:
+- type: DomainSecurity
+  url: security/targon-domain-security.yml
+- type: Authentication
+  url: authentication/targon-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/manifold-inc
 - type: LinkedIn
