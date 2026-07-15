@@ -101,6 +101,8 @@ apis:
   description: Search endpoint that returns relevant results for a query string,
     usable to ground model responses with retrieved context.
 common:
+- type: AgenticAccess
+  url: agentic-access/targon-agentic-access.yml
 - type: DomainSecurity
   url: security/targon-domain-security.yml
 - type: Authentication
