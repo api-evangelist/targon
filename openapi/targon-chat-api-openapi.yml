@@ -1,0 +1,214 @@
+openapi: 3.0.1
+info:
+  title: Targon Chat API
+  description: 'OpenAI-compatible REST API for Targon, the decentralized AI inference platform operated as Bittensor Subnet 4 by Manifold Labs. Inference is produced by a marketplace of miners running OpenAI-compliant endpoints and verified by validators. The public surface follows the OpenAI API shape: chat completions, legacy text completions, model listing, image generation, and search. All requests are authenticated with a Bearer API key.'
+  termsOfService: https://targon.com
+  contact:
+    name: Targon Support
+    url: https://docs.targon.com
+  version: '1.0'
+servers:
+- url: https://api.targon.com/v1
+  description: Targon OpenAI-compatible inference base URL.
+security:
+- bearerAuth: []
+tags:
+- name: Chat
+  description: OpenAI-compatible chat completions.
+paths:
+  /chat/completions:
+    post:
+      operationId: createChatCompletion
+      tags:
+      - Chat
+      summary: Create a chat completion
+      description: 'Generates a model response for the given chat conversation. Compatible with the OpenAI Chat Completions API. Set `stream: true` to receive the response as Server-Sent Events.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChatCompletionRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateChatCompletionResponse'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionChunk'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ChatCompletionChunk:
+      type: object
+      description: A single Server-Sent Event chunk emitted when stream is true.
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion.chunk
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              delta:
+                type: object
+                properties:
+                  role:
+                    type: string
+                  content:
+                    type: string
+              finish_reason:
+                type: string
+                nullable: true
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
+    CreateChatCompletionRequest:
+      type: object
+      required:
+      - model
+      - messages
+      properties:
+        model:
+          type: string
+          description: The id of the model to use.
+          example: deepseek-ai/DeepSeek-R1
+        messages:
+          type: array
+          description: The conversation so far, as a list of messages.
+          items:
+            $ref: '#/components/schemas/ChatMessage'
+        stream:
+          type: boolean
+          default: false
+          description: If true, response tokens are sent as Server-Sent Events.
+        temperature:
+          type: number
+          format: float
+          default: 1
+          minimum: 0
+          maximum: 2
+          description: Sampling temperature.
+        top_p:
+          type: number
+          format: float
+          default: 1
+          description: Nucleus sampling probability mass.
+        max_tokens:
+          type: integer
+          description: Maximum number of tokens to generate.
+        stop:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          description: Up to 4 sequences where generation stops.
+        frequency_penalty:
+          type: number
+          format: float
+          default: 0
+        presence_penalty:
+          type: number
+          format: float
+          default: 0
+        seed:
+          type: integer
+          description: Seed for best-effort deterministic sampling.
+    ChatMessage:
+      type: object
+      required:
+      - role
+      - content
+      properties:
+        role:
+          type: string
+          description: The role of the message author.
+          enum:
+          - system
+          - user
+          - assistant
+          - tool
+        content:
+          type: string
+          description: The text content of the message.
+        name:
+          type: string
+          description: Optional name of the author of this message.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+            code:
+              type: string
+    CreateChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              message:
+                $ref: '#/components/schemas/ChatMessage'
+              finish_reason:
+                type: string
+                example: stop
+        usage:
+          $ref: '#/components/schemas/Usage'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Targon API key passed as a Bearer token in the Authorization header: `Authorization: Bearer $TARGON_API_KEY`.'

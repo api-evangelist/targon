@@ -1,0 +1,113 @@
+openapi: 3.0.1
+info:
+  title: Targon Chat Images API
+  description: 'OpenAI-compatible REST API for Targon, the decentralized AI inference platform operated as Bittensor Subnet 4 by Manifold Labs. Inference is produced by a marketplace of miners running OpenAI-compliant endpoints and verified by validators. The public surface follows the OpenAI API shape: chat completions, legacy text completions, model listing, image generation, and search. All requests are authenticated with a Bearer API key.'
+  termsOfService: https://targon.com
+  contact:
+    name: Targon Support
+    url: https://docs.targon.com
+  version: '1.0'
+servers:
+- url: https://api.targon.com/v1
+  description: Targon OpenAI-compatible inference base URL.
+security:
+- bearerAuth: []
+tags:
+- name: Images
+  description: Image generation from a text prompt.
+paths:
+  /images/generations:
+    post:
+      operationId: createImage
+      tags:
+      - Images
+      summary: Create an image
+      description: Generates one or more images from a text prompt using an image model served across the Subnet 4 miner marketplace. Compatible with the OpenAI Images API.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateImageRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImagesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    CreateImageRequest:
+      type: object
+      required:
+      - prompt
+      properties:
+        model:
+          type: string
+          description: The image model to use.
+        prompt:
+          type: string
+          description: A text description of the desired image.
+        n:
+          type: integer
+          default: 1
+          description: The number of images to generate.
+        size:
+          type: string
+          description: The size of the generated images.
+          example: 1024x1024
+        response_format:
+          type: string
+          enum:
+          - url
+          - b64_json
+          default: url
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+            code:
+              type: string
+    ImagesResponse:
+      type: object
+      properties:
+        created:
+          type: integer
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+              b64_json:
+                type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Targon API key passed as a Bearer token in the Authorization header: `Authorization: Bearer $TARGON_API_KEY`.'
