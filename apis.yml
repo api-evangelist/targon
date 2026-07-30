@@ -7,7 +7,20 @@ description: Targon is a decentralized AI inference platform operated as Bittens
   REST API at https://api.targon.com/v1, where a marketplace of miners runs the
   inference and validators verify responses, giving developers chat, completions,
   image, and search endpoints over confidential, decentralized compute.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/targon.png
 tags:
 - AI
 - LLM
@@ -18,88 +31,86 @@ created: '2026-06-21'
 modified: '2026-06-21'
 specificationVersion: '0.19'
 apis:
-- aid: targon:targon-chat-completions-api
-  name: Targon Chat Completions API
+- aid: targon:targon-chat-api
+  name: Targon Chat API
+  description: OpenAI-compatible chat completions.
+  humanURL: https://docs.targon.com
+  baseURL: https://api.targon.com/v1
   tags:
   - Chat
-  - Completions
-  - LLM
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.targon.com
-  baseURL: https://api.targon.com/v1
   properties:
-  - url: https://docs.targon.com
-    type: Documentation
-  - url: https://docs.targon.com
-    type: APIReference
-  - url: openapi/targon-openapi.yml
-    type: OpenAPI
-  - url: asyncapi/targon-asyncapi.yml
-    type: AsyncAPI
-  description: OpenAI-compatible chat completions across open models (Llama, DeepSeek,
-    and other community-added models) served by Bittensor Subnet 4 miners, with
-    streaming, temperature, and max_tokens controls.
+  - type: OpenAPI
+    url: openapi/targon-chat-api-openapi.yml
+  - type: Documentation
+    url: https://docs.targon.com
+  - type: APIReference
+    url: https://docs.targon.com
+  - type: AsyncAPI
+    url: asyncapi/targon-asyncapi.yml
 - aid: targon:targon-completions-api
   name: Targon Completions API
+  description: OpenAI-compatible legacy text completions.
+  humanURL: https://docs.targon.com
+  baseURL: https://api.targon.com/v1
   tags:
   - Completions
-  - Text Generation
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.targon.com
-  baseURL: https://api.targon.com/v1
   properties:
-  - url: https://docs.targon.com
-    type: Documentation
-  - url: openapi/targon-openapi.yml
-    type: OpenAPI
-  description: OpenAI-compatible legacy text completion endpoint that takes a prompt
-    string and returns generated text from decentralized miner inference.
-- aid: targon:targon-models-api
-  name: Targon Models API
-  tags:
-  - Models
-  - Catalog
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.targon.com
-  baseURL: https://api.targon.com/v1
-  properties:
-  - url: https://docs.targon.com
-    type: Documentation
-  - url: openapi/targon-openapi.yml
-    type: OpenAPI
-  description: Lists the open models currently live on Targon, which can be extended
-    permissionlessly by the community, with OpenAI-compatible model metadata.
+  - type: OpenAPI
+    url: openapi/targon-completions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.targon.com
+  - type: APIReference
+    url: https://docs.targon.com
+  - type: AsyncAPI
+    url: asyncapi/targon-asyncapi.yml
 - aid: targon:targon-images-api
   name: Targon Images API
+  description: Image generation from a text prompt.
+  humanURL: https://docs.targon.com
+  baseURL: https://api.targon.com/v1
   tags:
   - Images
-  - Image Generation
-  - Multimodal
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  properties:
+  - type: OpenAPI
+    url: openapi/targon-images-api-openapi.yml
+  - type: Documentation
+    url: https://docs.targon.com
+  - type: APIReference
+    url: https://docs.targon.com
+  - type: AsyncAPI
+    url: asyncapi/targon-asyncapi.yml
+- aid: targon:targon-models-api
+  name: Targon Models API
+  description: List models available on Targon.
   humanURL: https://docs.targon.com
   baseURL: https://api.targon.com/v1
+  tags:
+  - Models
   properties:
-  - url: https://docs.targon.com
-    type: Documentation
-  - url: openapi/targon-openapi.yml
-    type: OpenAPI
-  description: OpenAI-compatible image generation endpoint that returns images from
-    a text prompt using image models served across the Subnet 4 miner marketplace.
+  - type: OpenAPI
+    url: openapi/targon-models-api-openapi.yml
+  - type: Documentation
+    url: https://docs.targon.com
+  - type: APIReference
+    url: https://docs.targon.com
+  - type: AsyncAPI
+    url: asyncapi/targon-asyncapi.yml
 - aid: targon:targon-search-api
   name: Targon Search API
-  tags:
-  - Search
-  - Retrieval
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  description: Query-based search/retrieval.
   humanURL: https://docs.targon.com
   baseURL: https://api.targon.com/v1
+  tags:
+  - Search
   properties:
-  - url: https://docs.targon.com
-    type: Documentation
-  - url: openapi/targon-openapi.yml
-    type: OpenAPI
-  description: Search endpoint that returns relevant results for a query string,
-    usable to ground model responses with retrieved context.
+  - type: OpenAPI
+    url: openapi/targon-search-api-openapi.yml
+  - type: Documentation
+    url: https://docs.targon.com
+  - type: APIReference
+    url: https://docs.targon.com
+  - type: AsyncAPI
+    url: asyncapi/targon-asyncapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/targon-agentic-access.yml
