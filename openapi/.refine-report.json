@@ -1,0 +1,22 @@
+{
+  "provider": "targon",
+  "sources": [
+    "targon-chat-api-openapi.yml",
+    "targon-completions-api-openapi.yml",
+    "targon-images-api-openapi.yml",
+    "targon-models-api-openapi.yml",
+    "targon-search-api-openapi.yml"
+  ],
+  "outputs": [
+    "targon-chat-api-openapi.yml",
+    "targon-completions-api-openapi.yml",
+    "targon-images-api-openapi.yml",
+    "targon-models-api-openapi.yml",
+    "targon-search-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
