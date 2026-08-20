@@ -22,6 +22,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/targon.png
 tags:
+- Artificial Intelligence
+- LLM
+- Inference
+- Decentralized
+- Bittensor
+tags_raw:
 - AI
 - LLM
 - Inference
@@ -69,6 +75,8 @@ apis:
   humanURL: https://docs.targon.com
   baseURL: https://api.targon.com/v1
   tags:
+  - Image
+  tags_raw:
   - Images
   properties:
   - type: OpenAPI
