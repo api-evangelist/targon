@@ -7,6 +7,18 @@ description: Targon is a decentralized AI inference platform operated as Bittens
   REST API at https://api.targon.com/v1, where a marketplace of miners runs the
   inference and validators verify responses, giving developers chat, completions,
   image, and search endpoints over confidential, decentralized compute.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: self-serve
