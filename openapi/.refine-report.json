@@ -1,11 +1,7 @@
 {
   "provider": "targon",
   "sources": [
-    "targon-chat-api-openapi.yml",
-    "targon-completions-api-openapi.yml",
-    "targon-images-api-openapi.yml",
-    "targon-models-api-openapi.yml",
-    "targon-search-api-openapi.yml"
+    "_original/targon-openapi.yml"
   ],
   "outputs": [
     "targon-chat-api-openapi.yml",
@@ -17,6 +13,16 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "targon-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "targon-chat-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "targon-completions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "targon-images-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "targon-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "targon-search-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

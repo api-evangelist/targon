@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Targon Chat Completions API
+  title: Targon Completions API
   description: 'OpenAI-compatible REST API for Targon, the decentralized AI inference platform operated as Bittensor Subnet 4 by Manifold Labs. Inference is produced by a marketplace of miners running OpenAI-compliant endpoints and verified by validators. The public surface follows the OpenAI API shape: chat completions, legacy text completions, model listing, image generation, and search. All requests are authenticated with a Bearer API key.'
   termsOfService: https://targon.com
   contact:
@@ -41,45 +41,7 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    CreateCompletionResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        object:
-          type: string
-          example: text_completion
-        created:
-          type: integer
-        model:
-          type: string
-        choices:
-          type: array
-          items:
-            type: object
-            properties:
-              index:
-                type: integer
-              text:
-                type: string
-              finish_reason:
-                type: string
-        usage:
-          $ref: '#/components/schemas/Usage'
     CreateCompletionRequest:
       type: object
       required:
@@ -136,6 +98,44 @@ components:
               type: string
             code:
               type: string
+    CreateCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: text_completion
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              text:
+                type: string
+              finish_reason:
+                type: string
+        usage:
+          $ref: '#/components/schemas/Usage'
+  responses:
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

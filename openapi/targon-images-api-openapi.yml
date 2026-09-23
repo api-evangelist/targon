@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Targon Chat Images API
+  title: Targon Images API
   description: 'OpenAI-compatible REST API for Targon, the decentralized AI inference platform operated as Bittensor Subnet 4 by Manifold Labs. Inference is produced by a marketplace of miners running OpenAI-compliant endpoints and verified by validators. The public surface follows the OpenAI API shape: chat completions, legacy text completions, model listing, image generation, and search. All requests are authenticated with a Bearer API key.'
   termsOfService: https://targon.com
   contact:
@@ -41,19 +41,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     CreateImageRequest:
       type: object
@@ -80,18 +67,6 @@ components:
           - url
           - b64_json
           default: url
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-            type:
-              type: string
-            code:
-              type: string
     ImagesResponse:
       type: object
       properties:
@@ -106,6 +81,31 @@ components:
                 type: string
               b64_json:
                 type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+            code:
+              type: string
+  responses:
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

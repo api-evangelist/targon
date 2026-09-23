@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: Targon Chat API
   description: 'OpenAI-compatible REST API for Targon, the decentralized AI inference platform operated as Bittensor Subnet 4 by Manifold Labs. Inference is produced by a marketplace of miners running OpenAI-compliant endpoints and verified by validators. The public surface follows the OpenAI API shape: chat completions, legacy text completions, model listing, image generation, and search. All requests are authenticated with a Bearer API key.'
@@ -44,59 +44,7 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    ChatCompletionChunk:
-      type: object
-      description: A single Server-Sent Event chunk emitted when stream is true.
-      properties:
-        id:
-          type: string
-        object:
-          type: string
-          example: chat.completion.chunk
-        created:
-          type: integer
-        model:
-          type: string
-        choices:
-          type: array
-          items:
-            type: object
-            properties:
-              index:
-                type: integer
-              delta:
-                type: object
-                properties:
-                  role:
-                    type: string
-                  content:
-                    type: string
-              finish_reason:
-                type: string
-                nullable: true
-    Usage:
-      type: object
-      properties:
-        prompt_tokens:
-          type: integer
-        completion_tokens:
-          type: integer
-        total_tokens:
-          type: integer
     CreateChatCompletionRequest:
       type: object
       required:
@@ -149,26 +97,15 @@ components:
         seed:
           type: integer
           description: Seed for best-effort deterministic sampling.
-    ChatMessage:
+    Usage:
       type: object
-      required:
-      - role
-      - content
       properties:
-        role:
-          type: string
-          description: The role of the message author.
-          enum:
-          - system
-          - user
-          - assistant
-          - tool
-        content:
-          type: string
-          description: The text content of the message.
-        name:
-          type: string
-          description: Optional name of the author of this message.
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
     Error:
       type: object
       properties:
@@ -207,6 +144,70 @@ components:
                 example: stop
         usage:
           $ref: '#/components/schemas/Usage'
+    ChatCompletionChunk:
+      type: object
+      description: A single Server-Sent Event chunk emitted when stream is true.
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion.chunk
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              delta:
+                type: object
+                properties:
+                  role:
+                    type: string
+                  content:
+                    type: string
+              finish_reason:
+                type:
+                - string
+                - 'null'
+    ChatMessage:
+      type: object
+      required:
+      - role
+      - content
+      properties:
+        role:
+          type: string
+          description: The role of the message author.
+          enum:
+          - system
+          - user
+          - assistant
+          - tool
+        content:
+          type: string
+          description: The text content of the message.
+        name:
+          type: string
+          description: Optional name of the author of this message.
+  responses:
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
