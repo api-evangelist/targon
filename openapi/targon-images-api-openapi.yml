@@ -42,31 +42,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    CreateImageRequest:
-      type: object
-      required:
-      - prompt
-      properties:
-        model:
-          type: string
-          description: The image model to use.
-        prompt:
-          type: string
-          description: A text description of the desired image.
-        n:
-          type: integer
-          default: 1
-          description: The number of images to generate.
-        size:
-          type: string
-          description: The size of the generated images.
-          example: 1024x1024
-        response_format:
-          type: string
-          enum:
-          - url
-          - b64_json
-          default: url
     ImagesResponse:
       type: object
       properties:
@@ -93,15 +68,40 @@ components:
               type: string
             code:
               type: string
+    CreateImageRequest:
+      type: object
+      required:
+      - prompt
+      properties:
+        model:
+          type: string
+          description: The image model to use.
+        prompt:
+          type: string
+          description: A text description of the desired image.
+        n:
+          type: integer
+          default: 1
+          description: The number of images to generate.
+        size:
+          type: string
+          description: The size of the generated images.
+          example: 1024x1024
+        response_format:
+          type: string
+          enum:
+          - url
+          - b64_json
+          default: url
   responses:
-    RateLimited:
-      description: Too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Too many requests.
       content:
         application/json:
           schema:

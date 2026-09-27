@@ -58,26 +58,7 @@ paths:
         '404':
           description: Model not found.
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-            type:
-              type: string
-            code:
-              type: string
     Model:
       type: object
       properties:
@@ -93,6 +74,18 @@ components:
         owned_by:
           type: string
           example: targon
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+            code:
+              type: string
     ListModelsResponse:
       type: object
       properties:
@@ -103,6 +96,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Model'
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

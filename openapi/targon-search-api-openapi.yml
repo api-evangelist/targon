@@ -86,14 +86,14 @@ components:
                 type: number
                 format: float
   responses:
-    RateLimited:
-      description: Too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Too many requests.
       content:
         application/json:
           schema:

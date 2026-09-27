@@ -45,6 +45,95 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
+    ChatCompletionChunk:
+      type: object
+      description: A single Server-Sent Event chunk emitted when stream is true.
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion.chunk
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              delta:
+                type: object
+                properties:
+                  role:
+                    type: string
+                  content:
+                    type: string
+              finish_reason:
+                type:
+                - string
+                - 'null'
+    ChatMessage:
+      type: object
+      required:
+      - role
+      - content
+      properties:
+        role:
+          type: string
+          description: The role of the message author.
+          enum:
+          - system
+          - user
+          - assistant
+          - tool
+        content:
+          type: string
+          description: The text content of the message.
+        name:
+          type: string
+          description: Optional name of the author of this message.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+            code:
+              type: string
+    CreateChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              message:
+                $ref: '#/components/schemas/ChatMessage'
+              finish_reason:
+                type: string
+                example: stop
+        usage:
+          $ref: '#/components/schemas/Usage'
     CreateChatCompletionRequest:
       type: object
       required:
@@ -106,104 +195,15 @@ components:
           type: integer
         total_tokens:
           type: integer
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-            type:
-              type: string
-            code:
-              type: string
-    CreateChatCompletionResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        object:
-          type: string
-          example: chat.completion
-        created:
-          type: integer
-        model:
-          type: string
-        choices:
-          type: array
-          items:
-            type: object
-            properties:
-              index:
-                type: integer
-              message:
-                $ref: '#/components/schemas/ChatMessage'
-              finish_reason:
-                type: string
-                example: stop
-        usage:
-          $ref: '#/components/schemas/Usage'
-    ChatCompletionChunk:
-      type: object
-      description: A single Server-Sent Event chunk emitted when stream is true.
-      properties:
-        id:
-          type: string
-        object:
-          type: string
-          example: chat.completion.chunk
-        created:
-          type: integer
-        model:
-          type: string
-        choices:
-          type: array
-          items:
-            type: object
-            properties:
-              index:
-                type: integer
-              delta:
-                type: object
-                properties:
-                  role:
-                    type: string
-                  content:
-                    type: string
-              finish_reason:
-                type:
-                - string
-                - 'null'
-    ChatMessage:
-      type: object
-      required:
-      - role
-      - content
-      properties:
-        role:
-          type: string
-          description: The role of the message author.
-          enum:
-          - system
-          - user
-          - assistant
-          - tool
-        content:
-          type: string
-          description: The text content of the message.
-        name:
-          type: string
-          description: Optional name of the author of this message.
   responses:
-    RateLimited:
-      description: Too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Too many requests.
       content:
         application/json:
           schema:
