@@ -74,6 +74,16 @@ components:
         owned_by:
           type: string
           example: targon
+    ListModelsResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          example: list
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model'
     Error:
       type: object
       properties:
@@ -86,16 +96,6 @@ components:
               type: string
             code:
               type: string
-    ListModelsResponse:
-      type: object
-      properties:
-        object:
-          type: string
-          example: list
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Model'
   responses:
     Unauthorized:
       description: Missing or invalid API key.

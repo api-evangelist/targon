@@ -54,18 +54,6 @@ components:
               type: string
             code:
               type: string
-    CreateSearchRequest:
-      type: object
-      required:
-      - query
-      properties:
-        query:
-          type: string
-          description: The search query.
-        max_results:
-          type: integer
-          default: 10
-          description: Maximum number of results to return.
     SearchResponse:
       type: object
       properties:
@@ -85,15 +73,27 @@ components:
               score:
                 type: number
                 format: float
+    CreateSearchRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: The search query.
+        max_results:
+          type: integer
+          default: 10
+          description: Maximum number of results to return.
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Too many requests.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
