@@ -59,6 +59,16 @@ paths:
           description: Model not found.
 components:
   schemas:
+    ListModelsResponse:
+      type: object
+      properties:
+        object:
+          type: string
+          example: list
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model'
     Model:
       type: object
       properties:
@@ -74,16 +84,6 @@ components:
         owned_by:
           type: string
           example: targon
-    ListModelsResponse:
-      type: object
-      properties:
-        object:
-          type: string
-          example: list
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Model'
     Error:
       type: object
       properties:

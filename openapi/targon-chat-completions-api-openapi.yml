@@ -13,14 +13,14 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: Chat
+- name: Chat Completions
   description: OpenAI-compatible chat completions.
 paths:
   /chat/completions:
     post:
       operationId: createChatCompletion
       tags:
-      - Chat
+      - Chat Completions
       summary: Create a chat completion
       description: 'Generates a model response for the given chat conversation. Compatible with the OpenAI Chat Completions API. Set `stream: true` to receive the response as Server-Sent Events.'
       requestBody:
@@ -45,37 +45,18 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    ChatCompletionChunk:
+    Error:
       type: object
-      description: A single Server-Sent Event chunk emitted when stream is true.
       properties:
-        id:
-          type: string
-        object:
-          type: string
-          example: chat.completion.chunk
-        created:
-          type: integer
-        model:
-          type: string
-        choices:
-          type: array
-          items:
-            type: object
-            properties:
-              index:
-                type: integer
-              delta:
-                type: object
-                properties:
-                  role:
-                    type: string
-                  content:
-                    type: string
-              finish_reason:
-                type:
-                - string
-                - 'null'
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+            code:
+              type: string
     CreateChatCompletionRequest:
       type: object
       required:
@@ -154,27 +135,37 @@ components:
                 example: stop
         usage:
           $ref: '#/components/schemas/Usage'
-    Error:
+    ChatCompletionChunk:
       type: object
+      description: A single Server-Sent Event chunk emitted when stream is true.
       properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-            type:
-              type: string
-            code:
-              type: string
-    Usage:
-      type: object
-      properties:
-        prompt_tokens:
+        id:
+          type: string
+        object:
+          type: string
+          example: chat.completion.chunk
+        created:
           type: integer
-        completion_tokens:
-          type: integer
-        total_tokens:
-          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              delta:
+                type: object
+                properties:
+                  role:
+                    type: string
+                  content:
+                    type: string
+              finish_reason:
+                type:
+                - string
+                - 'null'
     ChatMessage:
       type: object
       required:
@@ -195,6 +186,15 @@ components:
         name:
           type: string
           description: Optional name of the author of this message.
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
   responses:
     RateLimited:
       description: Too many requests.
