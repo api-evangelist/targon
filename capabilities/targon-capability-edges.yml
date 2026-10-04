@@ -1,0 +1,35 @@
+slug: targon
+provider: Targon
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Chat
+  spec_file: targon-chat-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.72
+  evidence: POST /chat/completions createChatCompletion 'Create a chat completion'; 'OpenAI-compatible
+    REST API for Targon, the decentralized AI inference platform'
+  reason: The operation performs large-language-model inference, so the capability realised for a buyer
+    is AI/ML model consumption and lifecycle under Artificial Intelligence Management. Confidence moderated
+    because the frame's AI capability emphasises model lifecycle/MLOps rather than pure inference serving.
+- tag: Completions
+  spec_file: targon-completions-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /completions createCompletion 'Create a completion'
+  reason: Legacy text-completion inference against open models — AI model serving, mapped to Artificial
+    Intelligence Management as the only honest fit.

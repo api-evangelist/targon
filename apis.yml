@@ -133,6 +133,9 @@ apis:
   - type: AsyncAPI
     url: asyncapi/targon-asyncapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/targon-capability-edges.yml
+  name: Targon Business Capability Map
 - type: AgenticAccess
   url: agentic-access/targon-agentic-access.yml
 - type: DomainSecurity
