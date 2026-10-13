@@ -1,0 +1,23 @@
+edges:
+- partner_name: OpenAI
+  partner: openai
+  partner_match: domain
+  type: contract
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  evidence: https://github.com/api-evangelist/targon/blob/main/openapi/targon-chat-completions-api-openapi.yml#L4
+  contract_reference:
+    repo: targon
+    spec_file: targon-chat-completions-api-openapi.yml
+    property: description
+    value: OpenAI-compatible
+    note: 'targon declares OpenAI compatibility: ''description: ''OpenAI-compatible REST API for Targon, the decentralized
+      AI inference platform operated as Bittensor Subnet 4 by Manifold Labs. Inference is produ'''
+    detected_by: sweep-model-routing.py
+    detected: '2026-10-13'
+  detected_by: sweep-model-routing.py
+  first_seen: '2026-10-13'
+generated: '2026-10-13'
+method: searched
+checked: []
