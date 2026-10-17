@@ -41,32 +41,7 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    RateLimited:
-      description: Too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    CreateSearchRequest:
-      type: object
-      required:
-      - query
-      properties:
-        query:
-          type: string
-          description: The search query.
-        max_results:
-          type: integer
-          default: 10
-          description: Maximum number of results to return.
     Error:
       type: object
       properties:
@@ -79,6 +54,18 @@ components:
               type: string
             code:
               type: string
+    CreateSearchRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: The search query.
+        max_results:
+          type: integer
+          default: 10
+          description: Maximum number of results to return.
     SearchResponse:
       type: object
       properties:
@@ -98,6 +85,19 @@ components:
               score:
                 type: number
                 format: float
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
