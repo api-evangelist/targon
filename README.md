@@ -1,4 +1,4 @@
-# Targon (targon)
+# Targon
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,137 +66,141 @@
 
 Targon is a decentralized AI inference platform operated as Bittensor Subnet 4 by Manifold Labs. It serves popular open models through an OpenAI-compatible REST API at https://api.targon.com/v1, where a marketplace of miners runs the inference and validators verify responses, giving developers chat, completions, image, and search endpoints over confidential, decentralized compute.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/targon/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/targon/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · LLM · Inference · Decentralized · Bittensor
 
-## Tags
+## Targon on APIs.io
 
-- AI
-- LLM
-- Inference
-- Decentralized
-- Bittensor
+Everything profiled for Targon is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/targon/](https://apis.io/providers/targon/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (5)
 
-- **Created:** 2026-06-21
-- **Modified:** 2026-06-21
+- [Targon Completions API](https://apis.io/apis/targon/targon-completions-api/) — OpenAI-compatible legacy text completions.
+- [Targon Images API](https://apis.io/apis/targon/targon-images-api/) — Image generation from a text prompt.
+- [Targon Models API](https://apis.io/apis/targon/targon-models-api/) — List models available on Targon.
+- [Targon Search API](https://apis.io/apis/targon/targon-search-api/) — Query-based search/retrieval.
+- [Targon Chat Completions API](https://apis.io/apis/targon/targon-chat-completions-api/) — OpenAI-compatible chat completions.
 
-## APIs
+### Published properties
 
-### Targon Chat Completions API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-OpenAI-compatible chat completions across open models (Llama, DeepSeek, and other community-added models) served by Bittensor Subnet 4 miners, with streaming, temperature, and max_tokens controls.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://docs.targon.com](https://docs.targon.com)
-- **Base URL:** `https://api.targon.com/v1`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Targon Chat Completions Streaming (HTTP + SSE)](https://apis.io/asyncapis/targon/targon-asyncapi/)
 
-- Chat
-- Completions
-- LLM
+#### Event channels (1)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://docs.targon.com)
-- [API Reference](https://docs.targon.com)
-- [OpenAPI](openapi/targon-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/targon.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/targon.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/targon-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+- [/chat/completions](https://apis.io/channels/targon/chat-completions/)
 
-### Targon Completions API
+#### Agentic access (1)
 
-OpenAI-compatible legacy text completion endpoint that takes a prompt string and returns generated text from decentralized miner inference.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://docs.targon.com](https://docs.targon.com)
-- **Base URL:** `https://api.targon.com/v1`
+- [Targon Agentic Access](https://apis.io/agentic-access/targon/targon-agentic-access/)
 
-#### Tags
+#### Collections (6)
 
-- Completions
-- Text Generation
+Postman and Open Collection request collections.
 
-#### Properties
+- [Targon API](https://apis.io/collections/targon/open-targon/)
+- [Targon Chat API](https://apis.io/collections/targon/open-targon-chat-api/)
+- [Targon Chat Completions API](https://apis.io/collections/targon/open-targon-completions-api/)
+- [Targon Chat Images API](https://apis.io/collections/targon/open-targon-images-api/)
+- [Targon Chat Models API](https://apis.io/collections/targon/open-targon-models-api/)
+- [Targon Chat Search API](https://apis.io/collections/targon/open-targon-search-api/)
 
-- [Documentation](https://docs.targon.com)
-- [OpenAPI](openapi/targon-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/targon.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/targon.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Governance rules (1)
 
-### Targon Models API
+Spectral rulesets for the provider's contracts.
 
-Lists the open models currently live on Targon, which can be extended permissionlessly by the community, with OpenAI-compatible model metadata.
+- [Targon — asyncapi rules](https://apis.io/rules/targon/targon-asyncapi-spectral-rules/)
 
-- **Human URL:** [https://docs.targon.com](https://docs.targon.com)
-- **Base URL:** `https://api.targon.com/v1`
+#### Security (2)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- Models
-- Catalog
+- [Targon Authentication](https://apis.io/security/targon/targon-authentication/)
+- [Targon Domain Security](https://apis.io/security/targon/targon-domain-security/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://docs.targon.com)
-- [OpenAPI](openapi/targon-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/targon.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/targon.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-### Targon Images API
+- [Targon Plans Pricing](https://apis.io/plans/targon/targon-plans-pricing/)
 
-OpenAI-compatible image generation endpoint that returns images from a text prompt using image models served across the Subnet 4 miner marketplace.
+#### Rate limits (1)
 
-- **Human URL:** [https://docs.targon.com](https://docs.targon.com)
-- **Base URL:** `https://api.targon.com/v1`
+Published request limits.
 
-#### Tags
+- [Targon Rate Limits](https://apis.io/rate-limits/targon/targon-rate-limits/)
 
-- Images
-- Image Generation
-- Multimodal
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://docs.targon.com)
-- [OpenAPI](openapi/targon-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/targon.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/targon.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Targon Finops](https://apis.io/finops/targon/targon-finops/)
 
-### Targon Search API
+## Where to find this API
 
-Search endpoint that returns relevant results for a query string, usable to ground model responses with retrieved context.
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [https://docs.targon.com](https://docs.targon.com)
-- **Base URL:** `https://api.targon.com/v1`
-
-#### Tags
-
-- Search
-- Retrieval
-
-#### Properties
-
-- [Documentation](https://docs.targon.com)
-- [OpenAPI](openapi/targon-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/targon.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/targon.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/manifold-inc)
-- [LinkedIn](https://www.linkedin.com/company/manifold-labs)
 - [Website](https://targon.com)
 - [Documentation](https://docs.targon.com)
-- [Plans](plans/targon-plans-pricing.yml)
-- [Rate Limits](rate-limits/targon-rate-limits.yml)
-- [Fin Ops](finops/targon-finops.yml)
+- [GitHub](https://github.com/manifold-inc)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 29.3** — thin · rubric 0.24.0 · scored 2026-10-17
 
-## Notes
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 57.9 |
+| Contract governance | 11.4 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 28.6 |
+| Access clarity | 5.3 |
 
-Targon runs on the Bittensor network as Subnet 4. Unlike a single-vendor cloud, inference is produced by a decentralized marketplace of miners running OpenAI-compliant endpoints, with validators applying deterministic verification to incentivize honest, high-quality responses. The public surface developers consume is a standard OpenAI-compatible REST API at `https://api.targon.com/v1` authenticated with a Bearer API key.
+**Agent readiness 19.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.9** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/targon/](https://apis.io/providers/targon/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Targon: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/targon/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
